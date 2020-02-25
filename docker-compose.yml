@@ -3,7 +3,8 @@ services:
   webframework:
     container_name: webframework
     build: .
-    environment: 
+    environment:
+      - port=${port} 
       - is_production=true
     ports: 
-      - '8000:8000'
+      - ${port}:${port}

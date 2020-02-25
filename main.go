@@ -11,10 +11,6 @@ import (
 	"github.com/rs/cors"
 )
 
-const (
-	port string = "8000"
-)
-
 func main() {
 	e := godotenv.Load() //Load .env file
 	if e != nil {
@@ -44,6 +40,8 @@ func main() {
 		Debug: !prod,
 	})
 	handler := c.Handler(mux)
+	// Get port from env file
+	port := os.Getenv("port")
 	log.Printf("Webserver is on http://127.0.0.1:%s\n", port)
 	http.ListenAndServe(":"+port, handler)
 }
