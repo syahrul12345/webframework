@@ -18,3 +18,6 @@ Create a react app
 cd webframework
 npx create-react-app
 ```
+
+## Authentication
+Please set your authentication in a cookie instead of a header.

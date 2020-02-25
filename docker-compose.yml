@@ -1,0 +1,9 @@
+version: '3'
+services:
+  webframework:
+    container_name: webframework
+    build: .
+    environment: 
+      - is_production=true
+    ports: 
+      - '8000:8000'
