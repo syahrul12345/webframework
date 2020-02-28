@@ -28,6 +28,10 @@ func main() {
 	mux := http.NewServeMux()
 	// Define rest endpoints
 	mux.HandleFunc("/", controller.Serve)
+	mux.HandleFunc("/api/v1/createAccount", controller.CreateAccount)
+	mux.HandleFunc("/api/v1/changePassword", controller.ChangePassword)
+	mux.HandleFunc("/api/v1/login", controller.Login)
+
 	// cors.Default() setup the middleware with default options being
 	// all origins accepted with simple methods (GET, POST). See
 	// documentation below for more options.
