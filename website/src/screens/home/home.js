@@ -6,18 +6,15 @@ import { BrowserRouter as Router,
         Route} from 'react-router-dom'
 function App() {
   // Set the global state
-  const [state,setState] = useState({
-    token:''
-  })
-  
+
   return (
     <Router>
       <Switch>
         <Route exact path="/create">
-          <Create globalState={state} setState={setState}/>
+          <Create redirect="/dashboard"/>
         </Route>
         <Route exact path="/">
-          <Login globalState={state} setState={setState}/>
+          <Login redirect="/dashboard"/>
         </Route>
       </Switch>
     </Router>

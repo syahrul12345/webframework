@@ -57,7 +57,6 @@ var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 	// The account has to follow this format
 	// {
 	// 		email:"example@acopointer.sg",
-	// 		username:"username"
 	// 		password:"password",
 	// }
 	// Create an account struct to hold the data
