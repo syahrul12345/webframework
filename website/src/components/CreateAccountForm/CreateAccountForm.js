@@ -1,7 +1,9 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState } from 'react'
 import { Grid,TextField, Button } from '@material-ui/core'
-import axios from 'axios'
+import { getCreateAccountUrl } from '../../utils'
 import { useHistory } from 'react-router-dom'
+import axios from 'axios'
+
 function CreateAccountForm(props) {
     const history = useHistory()
     const { redirect } = props
@@ -14,7 +16,8 @@ function CreateAccountForm(props) {
         setUserInfo({...userInfo,[input]:event.target.value})
     }
     const createAccount = () => {
-        axios.post("/api/v1/createAccount",userInfo)
+        const url = getCreateAccountUrl()
+        axios.post(url,userInfo)
             .then((res) => {
                 // Set the returned cookie from the backend
                 const token = res.data.account.Token

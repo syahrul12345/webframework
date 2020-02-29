@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Grid,TextField, Button } from '@material-ui/core'
-import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import { getLoginUrl } from '../../utils'
+import axios from 'axios'
+
 function LoginForm(props) {
     const history = useHistory()
     const { redirect } = props
@@ -15,12 +17,7 @@ function LoginForm(props) {
         })
     }
     const login = () => {
-        let url = ""
-        if (process.env.NODE_ENV == "production") {
-            url = '/api/v1/login'
-        }else{
-            url = 'http://localhost:8004/api/v1/login'
-        }
+        const url = getLoginUrl()
         axios.post(url,user)
             .then(res => {
                 const token = res.data.account.Token
