@@ -1,6 +1,7 @@
-import React,{useState} from 'react'
+import React from 'react'
 import Create from '../createaccount'
 import Login from '../login'
+import Dashboard from '../dashboard'
 import { BrowserRouter as Router,
         Switch ,
         Route} from 'react-router-dom'
@@ -15,6 +16,9 @@ function App() {
         </Route>
         <Route exact path="/">
           <Login redirect="/dashboard"/>
+        </Route>
+        <Route exact path="/dashboard">
+          <Dashboard/>
         </Route>
       </Switch>
     </Router>

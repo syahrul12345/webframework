@@ -1,8 +1,9 @@
-export const LoginAction = (token) => {
+export const LoginAction = (account, token) => {
     return {
         type: 'LOGIN',
         payload: {
-            token
+            account,
+            token,
         }
     }
 }

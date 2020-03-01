@@ -1,1 +1,1 @@
-export { getLoginUrl, getCreateAccountUrl,getUploadUrl} from './utils'
+export { getLoginUrl, getCreateAccountUrl,getUploadUrl,getVerifyTokenUrl} from './utils'

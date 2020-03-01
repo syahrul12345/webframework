@@ -14,8 +14,6 @@ function userReducer(state = userInitialState, action) {
             }
         case 'CREATE_ACCOUNT':
             const { createdAccount, createdAccountToken } = action.payload
-            console.log(createdAccount)
-            console.log(createdAccountToken)
             return {
                 ...state,
                 account: createdAccount,

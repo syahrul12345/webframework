@@ -37,7 +37,7 @@ func (acc *Account) Validate() (map[string]interface{}, bool) {
 		return utils.Message(false, "Email Address Required"), false
 	}
 	if len(acc.Password) < 6 {
-		return utils.Message(false, "Password is required"), false
+		return utils.Message(false, "Password is has to be more than 6 characters"), false
 	}
 
 	temp := &Account{}
