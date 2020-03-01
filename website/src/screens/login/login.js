@@ -3,7 +3,7 @@ import { Grid } from "@material-ui/core";
 import { useCookies } from 'react-cookie';
 import LoginForm from '../../components/LoginForm';
 
-export default function LoginPage(props) {
+const LoginPage = (props) => {
     const { redirect } = props
     const [myCookie,setMyCookie] = useState('')
     const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
@@ -28,3 +28,5 @@ export default function LoginPage(props) {
       </Grid>   
     )
 }
+
+export default LoginPage
