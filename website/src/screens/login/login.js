@@ -14,7 +14,7 @@ const LoginPage = (props) => {
       justify="center"
       style={{ minHeight: '100vh' }}
       >
-          <LoginForm redirect= {redirect} cookieHandler={setMyCookie}/>
+          <LoginForm redirect= {redirect}/>
       </Grid>   
     )
 }
