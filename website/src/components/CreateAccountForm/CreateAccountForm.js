@@ -2,8 +2,18 @@ import React, { useState,useEffect } from 'react'
 import { Grid,TextField, Button } from '@material-ui/core'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+
+// Redux stuff
+import { CreateAccountAction } from '../../redux-modules/user/actions'
+import { connect } from 'react-redux';
+// Cookie stuff
+import { useCookies } from 'react-cookie';
+// Helper functions
+import { getCreateAccountUrl } from '../../utils'
+
 function CreateAccountForm(props) {
     const history = useHistory()
+    const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
     const { redirect } = props
     const [userInfo,setUserInfo] = useState({
         email:'',
@@ -14,15 +24,18 @@ function CreateAccountForm(props) {
         setUserInfo({...userInfo,[input]:event.target.value})
     }
     const createAccount = () => {
-        axios.post("/api/v1/createAccount",userInfo)
+        const url = getCreateAccountUrl()
+        axios.post(url,userInfo)
             .then((res) => {
                 // Set the returned cookie from the backend
-                const token = res.data.account.Token
-                props.cookieHandler(token)
+                // console.log(res.data.account)
+                const account = res.data.account
+                setCookie('x-token',`bearer ${account.Token}`)
+                props.dispatch(CreateAccountAction(account,account.Token))
                 history.push(redirect)
             })
             .catch((err) => {
-                console.log(err.response.data.message)
+              console.log(err.response.data.message)
             })
     }
     return(
@@ -61,4 +74,11 @@ function CreateAccountForm(props) {
         </Grid>
     )
 }
-export default CreateAccountForm;
+function mapStateToProps(state) {
+    return {
+      account: state.account,
+      token: state.token,
+    };
+
+}
+export default connect(mapStateToProps)(CreateAccountForm);

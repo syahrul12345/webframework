@@ -1,15 +1,25 @@
 const userInitialState = {
-    email: '',
-    token: 'dummyToken',
+    account: {},
+    token: '',
 }
 
 function userReducer(state = userInitialState, action) {
     switch(action.type){
         case 'LOGIN':
-            const { token } = action.payload
+            const { account, token } = action.payload
             return {
                 ...state,
-                token: token
+                account,
+                token
+            }
+        case 'CREATE_ACCOUNT':
+            const { createdAccount, createdAccountToken } = action.payload
+            console.log(createdAccount)
+            console.log(createdAccountToken)
+            return {
+                ...state,
+                account: createdAccount,
+                token: createdAccountToken,
             }
         default:
             return state

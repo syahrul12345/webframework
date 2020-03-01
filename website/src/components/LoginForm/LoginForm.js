@@ -15,7 +15,7 @@ import { useCookies } from 'react-cookie';
 
 function LoginForm(props) {
     const history = useHistory()
-    const { redirect, token } = props
+    const { redirect } = props
     const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
     
     const [user,setUser] = useState({

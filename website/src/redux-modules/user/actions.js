@@ -5,4 +5,13 @@ export const LoginAction = (token) => {
             token
         }
     }
-} 
+}
+export const CreateAccountAction = (account,token) => {
+    return {
+        type: 'CREATE_ACCOUNT',
+        payload: {
+            createdAccount: account,
+            createdAccountToken: token,
+        }
+    }
+}
