@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
-import { Grid,TextField, Button } from '@material-ui/core'
-import { getCreateAccountUrl } from '../../utils'
-import { useHistory } from 'react-router-dom'
-import axios from 'axios'
-=======
 import React, { useState, useEffect } from 'react'
 import { Grid,TextField, Button, Typography, } from '@material-ui/core'
 import axios from 'axios'
@@ -20,7 +13,6 @@ import { getCreateAccountUrl } from '../../utils'
 
 // DialogBox
 import DialogBox from '../Dialog'
->>>>>>> 8c70eeeba95aa2aebbe70b7e9ae1b631771955e1
 
 function CreateAccountForm(props) {
     const history = useHistory()
@@ -53,10 +45,7 @@ function CreateAccountForm(props) {
     },[userInfo])
     const createAccount = () => {
         const url = getCreateAccountUrl()
-<<<<<<< HEAD
-=======
         // ensure that the password and confirm password is the same..
->>>>>>> 8c70eeeba95aa2aebbe70b7e9ae1b631771955e1
         axios.post(url,userInfo)
             .then((res) => {
                 // Set the returned cookie from the backend

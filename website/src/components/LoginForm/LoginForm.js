@@ -2,10 +2,6 @@ import React, { useState } from 'react'
 import { Grid,TextField, Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import { getLoginUrl } from '../../utils'
-<<<<<<< HEAD
-import axios from 'axios'
-
-=======
 
 import axios from 'axios'
 
@@ -18,7 +14,6 @@ import { useCookies } from 'react-cookie';
 // DialogBox
 import DialogBox from '../Dialog'
 
->>>>>>> 8c70eeeba95aa2aebbe70b7e9ae1b631771955e1
 function LoginForm(props) {
     const history = useHistory()
     const { redirect } = props
