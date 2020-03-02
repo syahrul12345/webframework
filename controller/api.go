@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -11,12 +10,11 @@ import (
 	"time"
 	"webframework/models"
 	"webframework/utils"
-
-	"github.com/dgrijalva/jwt-go"
 )
 
 // Serve will serve the frontend
 var Serve = func(w http.ResponseWriter, r *http.Request) {
+	preFlight(w, r)
 	var prod string = os.Getenv("is_production")
 	// Deal with the authentication first
 	authenticated := utils.Auth(w, r)
@@ -52,6 +50,7 @@ var Serve = func(w http.ResponseWriter, r *http.Request) {
 
 // CreateAccount : Creates an account on the database
 var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
+	preFlight(w, r)
 	fmt.Println("Attempt to create an account detected")
 	// Parse the incoming payload
 	// The account has to follow this format
@@ -82,6 +81,7 @@ var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 
 // ChangePassword : Changes the password of the account, provided that the user knows the old password
 var ChangePassword = func(w http.ResponseWriter, r *http.Request) {
+	preFlight(w, r)
 	// Parse the incoming payload
 	// The account has to follow this format
 	// {
@@ -130,7 +130,7 @@ var ChangePassword = func(w http.ResponseWriter, r *http.Request) {
 
 //Login : Login to the main page
 var Login = func(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Login attempt detected")
+	preFlight(w, r)
 	// Parse the incoming payload
 	// The account has to follow this format
 	// {
@@ -166,47 +166,9 @@ func addCookie(w http.ResponseWriter, jwString string) {
 	http.SetCookie(w, &cookie)
 }
 
-func miniAuth(writer http.ResponseWriter, request *http.Request) {
-	tokenHeader := request.Header.Get("Authorization")
-	response := make(map[string]interface{})
-	if tokenHeader == "" {
-		response = utils.Message(false, "Missing auth token")
-		writer.WriteHeader(http.StatusForbidden)
-		writer.Header().Add("Content-Type", "application/json")
-		utils.Respond(writer, response)
+func preFlight(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
 		return
 	}
-	splitted := strings.Split(tokenHeader, " ") //The token normally comes in format `Bearer {token-body}`, we check if the retrieved token matched this requirement
-	if len(splitted) != 2 {
-		response = utils.Message(false, "Invalid/Malformed auth token")
-		writer.WriteHeader(http.StatusForbidden)
-		writer.Header().Add("Content-Type", "application/json")
-		utils.Respond(writer, response)
-		return
-	}
-	tokenPart := splitted[1] // the information that we're interested in
-	tk := &models.Token{}
-
-	token, err := jwt.ParseWithClaims(tokenPart, tk, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("token_password")), nil
-	})
-
-	//malformed token, return 403
-	if err != nil {
-		response = utils.Message(false, "Malformed auth token")
-		writer.WriteHeader(http.StatusForbidden)
-		writer.Header().Add("Content-Type", "application/json")
-		utils.Respond(writer, response)
-		return
-	}
-	//token is invalid
-	if !token.Valid {
-		response = utils.Message(false, "Token is invalid")
-		writer.WriteHeader(http.StatusForbidden)
-		writer.Header().Add("Content-Type", "application/json")
-		utils.Respond(writer, response)
-		return
-	}
-	ctx := context.WithValue(request.Context(), "user", tk.UserID)
-	request = request.WithContext(ctx)
 }

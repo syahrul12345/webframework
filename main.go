@@ -37,15 +37,21 @@ func main() {
 	// documentation below for more options.
 	// Allow the default testing port for CORS
 	prod, _ := strconv.ParseBool(os.Getenv("is_production"))
+	port := os.Getenv("port")
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://127.0.0.1:3000", "http://localhost:3000"},
-		AllowCredentials: true,
+		AllowedOrigins: []string{
+			"http://127.0.0.1:*",
+			"http://localhost:*",
+			"http://127.0.0.1:" + port,
+			"http://localhost:" + port,
+		},
+		AllowedMethods:     []string{"POST", "GET", "OPTIONS"},
+		OptionsPassthrough: true,
+		AllowCredentials:   true,
 		// Enable Debugging for testing, consider disabling in production
 		Debug: !prod,
 	})
 	handler := c.Handler(mux)
-	// Get port from env file
-	port := os.Getenv("port")
 	log.Printf("Webserver is on http://127.0.0.1:%s\n", port)
 	http.ListenAndServe(":"+port, handler)
 }
