@@ -38,7 +38,7 @@ func main() {
 	// Allow the default testing port for CORS
 	prod, _ := strconv.ParseBool(os.Getenv("is_production"))
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://127.0.0.1:8080"},
+		AllowedOrigins:   []string{"http://127.0.0.1:3000", "http://localhost:3000"},
 		AllowCredentials: true,
 		// Enable Debugging for testing, consider disabling in production
 		Debug: !prod,

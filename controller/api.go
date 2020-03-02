@@ -65,7 +65,6 @@ var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Failed to create an account")
 		// Handle a generic error
-		w.WriteHeader(http.StatusBadRequest)
 		utils.Respond(w, utils.Message(false, "Invalid Request"))
 		return
 	}
@@ -73,7 +72,6 @@ var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 	message, ok := account.Create()
 	if !ok {
 		fmt.Println(message)
-		w.WriteHeader(http.StatusBadRequest)
 		utils.Respond(w, message)
 		return
 	}
@@ -145,13 +143,11 @@ var Login = func(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(account)
 	if err != nil {
 		// Handle a generic error
-		w.WriteHeader(http.StatusBadRequest)
 		utils.Respond(w, utils.Message(false, "Invalid Request"))
 		return
 	}
 	message, ok := account.Login()
 	if !ok {
-		w.WriteHeader(http.StatusBadRequest)
 		utils.Respond(w, utils.Message(false, "Invalid Email/Password provided"))
 		return
 	}
