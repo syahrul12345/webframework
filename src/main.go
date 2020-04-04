@@ -1,13 +1,21 @@
 package main
 
 import (
+	"fmt"
+	"os"
 	"scratchuniversity/apps/api"
 	_ "scratchuniversity/apps/db"
+	"scratchuniversity/apps/website"
 	"scratchuniversity/middlewares/auth"
 	"time"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	port string = fmt.Sprintf(":%s", os.Getenv("PORT"))
 )
 
 // SetupRouter will set up all the required router
@@ -24,15 +32,26 @@ func SetupRouter() *gin.Engine {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
+	isProduction := os.Getenv("is_production")
+	if isProduction == "true" {
+		// Build folder will be in the /apps/website/build.
+		// We will build using a multistage docker build which will send the html files to this folder
+		app.Use(static.Serve("/", static.LocalFile("./apps/website/build", true)))
+	} else {
+		// Non docker build, use the build outside of the folder
+		app.Use(static.Serve("/", static.LocalFile("./website/build", true)))
+	}
 
-	// Routers
 	apiRouter := app.Group("/api/v1")
-	// Register the routes
+	websiteRouter := app.Group("/")
+
 	api.Register(apiRouter)
+	website.Register(websiteRouter)
+
 	return app
 }
 
 func main() {
 	app := SetupRouter()
-	app.Run("localhost:8000")
+	app.Run(port)
 }

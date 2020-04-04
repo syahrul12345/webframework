@@ -12,11 +12,11 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/create">
-          <Create redirect="/dashboard"/>
-        </Route>
         <Route exact path="/">
           <Login redirect="/dashboard"/>
+        </Route>
+        <Route exact path="/create">
+          <Create redirect="/dashboard"/>
         </Route>
         <Route exact path="/forgetpassword">
           <Forget></Forget>

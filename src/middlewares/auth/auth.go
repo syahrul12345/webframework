@@ -25,7 +25,6 @@ func AuthenticationMiddleware() gin.HandlerFunc {
 			}
 		}
 		// Auth needed
-		log.Println("Auth needed")
-
+		return
 	}
 }
