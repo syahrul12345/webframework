@@ -1,10 +1,34 @@
 version: '3'
 services:
-  webframework:
-    container_name: webframework
+  app:
+    container_name: app
     build: .
     environment:
       - port=${port} 
       - is_production=true
-    ports: 
-      - ${port}:${port}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - IS_DOCKER=true
+    ports:
+      - ${PORT}:${PORT}
+    depends_on: 
+      - db
+    links:
+      - db
+  db:
+    container_name: db
+    image: postgres
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - scratchpostgresvolume:/var/lib/postgresql/data/
+    ports:
+      - 5433:${DB_PORT}
+volumes: 
+  scratchpostgresvolume:

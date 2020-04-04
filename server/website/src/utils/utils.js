@@ -36,3 +36,12 @@ export const getVerifyTokenUrl = () => {
   }
   return url
 }
+export const getResetPasswordUrl = () => {
+  let url = ""
+  if (process.env.NODE_ENV === "production") {
+    url = '/api/v1/forgetPassword'
+  } else {
+    url = 'http://localhost:8004/api/v1/forgetPassword'
+  }
+  return url
+}

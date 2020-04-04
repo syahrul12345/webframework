@@ -2,6 +2,7 @@ import React from 'react'
 import Create from '../createaccount'
 import Login from '../login'
 import Dashboard from '../dashboard'
+import Forget from '../forget'
 import { BrowserRouter as Router,
         Switch ,
         Route} from 'react-router-dom'
@@ -16,6 +17,9 @@ function App() {
         </Route>
         <Route exact path="/">
           <Login redirect="/dashboard"/>
+        </Route>
+        <Route exact path="/forgetpassword">
+          <Forget></Forget>
         </Route>
         <Route exact path="/dashboard">
           <Dashboard/>

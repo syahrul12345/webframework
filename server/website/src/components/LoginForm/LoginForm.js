@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid,TextField, Button } from '@material-ui/core'
+import { Grid,TextField, Button, Typography, Link } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import { getLoginUrl } from '../../utils'
 
@@ -68,6 +68,12 @@ function LoginForm(props) {
                 variant="outlined"  
                 label="Password" />
             </Grid>
+            <Typography style={{marginBottom:'1vh'}} variant="subtitle2"> 
+                <Link href="/forgetPassword"> Forget Password </Link> 
+            </Typography>
+            <Typography style={{marginBottom:'1vh'}} variant="subtitle2"> No Account? Register 
+                <Link href="/create"> here </Link> 
+            </Typography>
             <Grid item xs={12}>
                 <Button variant="outlined" onClick={() => login()}> LOGIN </Button>
             </Grid>

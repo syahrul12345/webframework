@@ -24,5 +24,6 @@ WORKDIR /root/
 COPY --from=stage1 /app/main .
 # Copy built website
 COPY --from=stage2 /app/build ./build
-EXPOSE 8000
-CMD ["./main"]
+# Copy wait for it
+COPY ./wait-for-it.sh ./
+CMD ["./wait-for-it.sh", "db:5432", "--", "./main"]
