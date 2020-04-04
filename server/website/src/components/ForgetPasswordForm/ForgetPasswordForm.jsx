@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 import axios from 'axios';
 
 import { getResetPasswordUrl } from '../../utils'
-import { Grid,TextField, Button,Typography,Link } from '@material-ui/core'
-import DialogBox from '../Dialog'
+import { Grid,TextField, Button,Typography } from '@material-ui/core'
+
 const ForgetPasswordForm = () => {
   const [email,setEmail] = useState()
-  const [errorMessage,setErrorMessage] = useState('')
+  const [resetMessage,setResetMessage] = useState('')
   const [openDialog,setOpenDialog] = useState(false)
 
   const handleChange = () => event => {
@@ -21,11 +21,9 @@ const ForgetPasswordForm = () => {
     axios.post(url,{
       email,
     }).then(res => {
-      setErrorMessage(res.data.message)
-      setOpenDialog(true)
+      setResetMessage(res.data.message)
     }).catch(err => {
-      setErrorMessage(err.toString())
-      setOpenDialog(true)
+      setResetMessage(err.response.data.message)
     })
   }
   return (
@@ -37,10 +35,15 @@ const ForgetPasswordForm = () => {
           variant="outlined" 
           label="Email" />
       </Grid>
+      {resetMessage !== "" ?
+        <Typography variant="subtitle2" style={{textAlign:'center',color:'red',paddingBottom:'1vh'}}> {resetMessage} </Typography>
+      :
+        <></>
+      }
       <Grid item xs={12}>
           <Button variant="outlined" onClick={() => reset()}> Reset Password </Button>
       </Grid>
-      <DialogBox errorMessage={errorMessage} handler={handleDialogClose} openDialog={openDialog}/>
+      {/* <DialogBox errorMessage={errorMessage} handler={handleDialogClose} openDialog={openDialog}/> */}
   </>
   )
 }

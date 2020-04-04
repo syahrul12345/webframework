@@ -64,7 +64,7 @@ func loginAccountHandler(c *gin.Context) {
 	}
 	// Return the account details with token
 	c.JSON(http.StatusOK, gin.H{
-		"accont": account,
+		"account": account,
 	})
 }
 

@@ -13,7 +13,7 @@ const Dashboard = (props) => {
         const tokenHeader = cookies["x-token"].split(" ")
         const token = tokenHeader[1]
         // send the token to the backend
-        
+        console.log(token)
     }
     return(
         <div> THIS IS THE DASHBAORD</div>

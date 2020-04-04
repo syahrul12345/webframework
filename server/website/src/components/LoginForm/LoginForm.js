@@ -38,17 +38,15 @@ function LoginForm(props) {
         const url = getLoginUrl()
         axios.post(url,user)
             .then(res => {
-                if (res.data.status === false) {
-                    throw new Error(res.data.message)
-                }
                 const account = res.data.account
+                console.log(res.data)
                 setCookie('x-token',`bearer ${account.Token}`)
                 props.dispatch(LoginAction(account,account.Token))
                 history.push(redirect)
             })
             .catch(err => {
-              setErrorMessage(err.message)
-              setOpenDialog(true)
+                setErrorMessage(err.response.data.message)
+                setOpenDialog(true)
             })
     }
     return(

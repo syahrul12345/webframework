@@ -3,7 +3,7 @@ export const getLoginUrl = () => {
   if (process.env.NODE_ENV === "production") {
       url = '/api/v1/login'
   }else{
-      url = 'http://localhost:8000/api/v1/login'
+      url = 'http://localhost:8000/api/v1/loginAccount'
   }
   return url
 }
@@ -41,7 +41,7 @@ export const getResetPasswordUrl = () => {
   if (process.env.NODE_ENV === "production") {
     url = '/api/v1/forgetPassword'
   } else {
-    url = 'http://localhost:8004/api/v1/forgetPassword'
+    url = 'http://localhost:8000/api/v1/forgetPassword'
   }
   return url
 }

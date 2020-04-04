@@ -58,7 +58,7 @@ function CreateAccountForm(props) {
                 history.push(redirect)
             })
             .catch((err) => {
-              setErrorMessage(err.message)
+              setErrorMessage(err.response.data.message)
               setOpenDialog(true)
             })
     }
