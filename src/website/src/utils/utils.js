@@ -1,7 +1,7 @@
 export const getLoginUrl = () => {
   let url = ""
   if (process.env.NODE_ENV === "production") {
-      url = '/api/v1/login'
+      url = '/api/v1/loginAccount'
   }else{
       url = 'http://localhost:8000/api/v1/loginAccount'
   }
@@ -16,17 +16,6 @@ export const getCreateAccountUrl = () => {
   }
   return url
 }
-
-export const getUploadUrl = () => {
-  let url = ""
-  if (process.env.NODE_ENV === "production") {
-      url = '/api/v1/upload'
-  }else{
-    url = 'http://localhost:8000/api/v1/upload'
-  }
-  return url
-}
-
 export const getVerifyTokenUrl = () => {
   let url = ""
   if (process.env.NODE_ENV === "production") {
