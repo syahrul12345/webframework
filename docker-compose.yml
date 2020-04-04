@@ -2,24 +2,25 @@ version: '3'
 services:
   app:
     container_name: app
-    build: .
+    build: ./src
     environment:
-      - port=${port} 
+      - PORT=${PORT} 
       - is_production=true
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
       - DB_NAME=${DB_NAME}
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
+      - GIN_MODE=release
       - IS_DOCKER=true
     ports:
       - ${PORT}:${PORT}
     depends_on: 
-      - db
+      - scratchdb
     links:
-      - db
-  db:
-    container_name: db
+      - scratchdb
+  scratchdb:
+    container_name: ${DB_HOST}
     image: postgres
     environment:
       - POSTGRES_USER=${DB_USER}

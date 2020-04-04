@@ -1,8 +1,17 @@
 package website
 
-import "github.com/gin-gonic/gin"
+import (
+	"os"
+
+	"github.com/gin-gonic/gin"
+)
 
 func websiteHandler(c *gin.Context) {
+	isProduction := os.Getenv("is_production")
 	// let react handle the website
-	c.File("./website/build/index.html")
+	if isProduction == "false" {
+		c.File("./website/build/index.html")
+	} else {
+		c.File("./build/index.html")
+	}
 }
