@@ -2,12 +2,18 @@ package main
 
 import (
 	"scratchuniversity/apps/api"
+	_ "scratchuniversity/apps/db"
+	"scratchuniversity/middlewares/auth"
+
 	"github.com/gin-gonic/gin"
 )
 
 // SetupRouter will set up all the required router
 func SetupRouter() *gin.Engine {
 	app := gin.Default()
+
+	// Middlewares
+	app.Use(auth.AuthenticationMiddleware())
 
 	// Routers
 	apiRouter := app.Group("/api/v1")
@@ -18,5 +24,5 @@ func SetupRouter() *gin.Engine {
 
 func main() {
 	app := SetupRouter()
-	app.Run(config.Web.Port)
+	app.Run("localhost:8000")
 }
