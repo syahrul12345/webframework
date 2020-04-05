@@ -7,6 +7,7 @@ import (
 	"scratchuniversity/apps/db"
 	"strings"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
@@ -63,5 +64,6 @@ func verifyToken(tokenFromClient string, c *gin.Context) {
 				"message": "Invalid or expired token",
 			})
 		}
+		spew.Dump(token)
 	}
 }

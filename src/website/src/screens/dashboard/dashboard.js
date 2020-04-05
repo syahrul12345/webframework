@@ -7,8 +7,10 @@ import jwt from 'jwt-decode'
 const Dashboard = (props) => {
     // Pull account from the store
     const { account } = props
+    console.log(account)
     const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
-    if (account.id == undefined) {
+    // Redux is non persistent, so account in redux store is deleted upon refresh. Cookies are still stored by browser,so we send it to the backend.
+    if (account.ID == undefined) {
         // send this token to the backend to verify
         const tokenHeader = cookies["x-token"].split(" ")
         const token = tokenHeader[1]
@@ -21,7 +23,7 @@ const Dashboard = (props) => {
 }
 function mapStateToProps(state) {
     return {
-      account: state.account
+      account: state.user.account
     };
   }
 export default connect(mapStateToProps)(Dashboard);

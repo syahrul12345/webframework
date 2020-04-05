@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"net/http"
 	"scratchuniversity/apps/db"
 
@@ -132,4 +133,27 @@ func forgetPasswordHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "An email has been sent to your account to reset your password",
 	})
+}
+
+func getAccountDetailHandler(c *gin.Context) {
+	cookieXToken, err := c.Cookie("x-token")
+	if err != nil {
+		// No cookie found, unauthorized route.
+		log.Println("No cookie found")
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"message": err.Error(),
+		})
+	}
+	acc, err := getAccountFromCookie(cookieXToken)
+	if err != nil {
+		// No cookie found, unauthorized route.
+		log.Println("invalid cookie")
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"message": err.Error(),
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": acc,
+	})
+
 }

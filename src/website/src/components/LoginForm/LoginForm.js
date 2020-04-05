@@ -39,7 +39,6 @@ function LoginForm(props) {
         axios.post(url,user)
             .then(res => {
                 const account = res.data.account
-                console.log(res.data)
                 setCookie('x-token',`bearer ${account.Token}`)
                 props.dispatch(LoginAction(account,account.Token))
                 history.push(redirect)
