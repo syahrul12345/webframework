@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
@@ -93,7 +94,12 @@ func (acc *Account) Create() error {
 		return errors.New("Failed to create new account dew to database error of ID less than 0")
 	}
 	//create a new JWT token
-	tk := &Token{UserID: acc.ID, UserName: acc.Email}
+	tk := &Token{acc.ID, acc.Email, jwt.StandardClaims{
+		ExpiresAt: getExpiryDate(),
+		IssuedAt:  time.Now().Unix(),
+		Issuer:    "scatchuniversity",
+		Subject:   "Authtoken",
+	}}
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 	tokenString, err := token.SignedString([]byte(os.Getenv("token_password")))
 	if err != nil {
@@ -116,8 +122,16 @@ func (acc *Account) ChangePassword(newPassword string) error {
 	// Update the password field only
 	GetDB().Model(acc).Update("Password", string(hashedPassword))
 	//create JWT TOKEN
-	tk := &Token{UserID: acc.ID, UserName: acc.Email}
+	tk := &Token{acc.ID, acc.Email, jwt.StandardClaims{
+		ExpiresAt: getExpiryDate(),
+		IssuedAt:  time.Now().Unix(),
+		Issuer:    "scatchuniversity",
+		Subject:   "Authtoken",
+	}}
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
+	claims := token.Claims.(*Token)
+	claims.StandardClaims.ExpiresAt = getExpiryDate()
+
 	tokenString, err := token.SignedString([]byte(os.Getenv("token_password")))
 	if err != nil {
 		return err
@@ -133,8 +147,14 @@ func (acc *Account) Login() error {
 	if err != nil {
 		return err
 	}
-	tk := &Token{UserID: acc.ID, UserName: acc.Email}
+	tk := &Token{acc.ID, acc.Email, jwt.StandardClaims{
+		ExpiresAt: getExpiryDate(),
+		IssuedAt:  time.Now().Unix(),
+		Issuer:    "scatchuniversity",
+		Subject:   "Authtoken",
+	}}
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
+	// Our standard claims is stored in the db.Token struct
 	tokenString, err := token.SignedString([]byte(os.Getenv("token_password")))
 	if err != nil {
 		return err
@@ -155,4 +175,10 @@ func (acc *Account) Exists() error {
 		return errors.New("Account does not exist")
 	}
 	return nil
+}
+
+func getExpiryDate() int64 {
+	start := time.Now()
+	end := start.Add(time.Hour * 1)
+	return end.Unix()
 }
