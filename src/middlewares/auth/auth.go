@@ -7,7 +7,6 @@ import (
 	"scratchuniversity/apps/db"
 	"strings"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
@@ -40,8 +39,25 @@ func AuthenticationMiddleware() gin.HandlerFunc {
 		// Auth needed. Get from cookies or headers
 		cookieXToken, _ := c.Cookie("x-token")
 		headerXToken := c.GetHeader("x-token")
-		verifyToken(cookieXToken, c)
-		verifyToken(headerXToken, c)
+
+		// No cookie and header
+		if cookieXToken == "" && headerXToken == "" {
+			// redirect to login page
+			c.Redirect(http.StatusPermanentRedirect, "/")
+		}
+		// Got cookie no header
+		if cookieXToken != "" && headerXToken == "" {
+			verifyToken(cookieXToken, c)
+		}
+		// No cookie got header
+		if cookieXToken == "" && headerXToken != "" {
+			verifyToken(headerXToken, c)
+		}
+		// if Both have
+		if cookieXToken != "" && headerXToken != "" {
+			verifyToken(cookieXToken, c)
+		}
+
 		return
 	}
 }
@@ -56,14 +72,15 @@ func verifyToken(tokenFromClient string, c *gin.Context) {
 		})
 		if err != nil {
 			log.Printf("Failed to go to dashboard as %s\n", err.Error())
-			c.AbortWithStatus(http.StatusUnauthorized)
+			c.Redirect(http.StatusPermanentRedirect, "/")
 			return
 		}
 		if !token.Valid {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"message": "Invalid or expired token",
-			})
+			log.Println("Failed to go to dashbaord as the jwt token is invalid")
+			c.Redirect(http.StatusPermanentRedirect, "/")
 		}
-		spew.Dump(token)
+		c.Next()
+		return
 	}
+	c.Next()
 }
