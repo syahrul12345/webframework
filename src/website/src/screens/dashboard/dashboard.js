@@ -6,19 +6,19 @@ import { useHistory } from 'react-router-dom'
 
 const Dashboard = (props) => {
     // Pull account from the store
-    const history = useHistory()
     const { account } = props
-    const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
+    const history = useHistory()
+    
+    const [cookies] = useCookies(['cookie-name']);
     const xToken = cookies["x-token"]
-    // Verify the cookies
-    // Redux is non persistent, so account in redux store is deleted upon refresh. Cookies are still stored by browser,so we send it to the backend.
+    // Verify the cookies only if empty. If it is send to backend. In production, the backend server will handle this.
     verifyCookie(xToken,history)
     return(
         <div> THIS IS THE DASHBAORD</div>
     )
 }
 const verifyCookie = (xToken,history) => {
-  if (xToken == undefined) {
+  if (xToken === undefined) {
     history.push("/")
     return
   }

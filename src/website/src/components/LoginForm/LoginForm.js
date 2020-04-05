@@ -17,7 +17,7 @@ import DialogBox from '../Dialog'
 function LoginForm(props) {
     const history = useHistory()
     const { redirect } = props
-    const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
+    const [setCookie] = useCookies(['cookie-name']);
     
     const [errorMessage,setErrorMessage] = useState('')
     const [openDialog,setOpenDialog] = useState(false)

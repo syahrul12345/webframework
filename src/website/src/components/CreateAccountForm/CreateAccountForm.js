@@ -16,7 +16,7 @@ import DialogBox from '../Dialog'
 
 function CreateAccountForm(props) {
     const history = useHistory()
-    const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
+    const [setCookie] = useCookies(['cookie-name']);
     const { redirect } = props
     const [userInfo,setUserInfo] = useState({
         email:'',

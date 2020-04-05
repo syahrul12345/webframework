@@ -7,14 +7,10 @@ import { Grid,TextField, Button,Typography } from '@material-ui/core'
 const ForgetPasswordForm = () => {
   const [email,setEmail] = useState()
   const [resetMessage,setResetMessage] = useState('')
-  const [openDialog,setOpenDialog] = useState(false)
 
   const handleChange = () => event => {
     setEmail(event.target.value)
   }
-  const handleDialogClose = () => {
-    setOpenDialog(false);
-};
 
   const reset = () => {
     const url = getResetPasswordUrl()
@@ -43,7 +39,6 @@ const ForgetPasswordForm = () => {
       <Grid item xs={12}>
           <Button variant="outlined" onClick={() => reset()}> Reset Password </Button>
       </Grid>
-      {/* <DialogBox errorMessage={errorMessage} handler={handleDialogClose} openDialog={openDialog}/> */}
   </>
   )
 }
